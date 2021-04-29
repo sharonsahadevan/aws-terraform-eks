@@ -1,16 +1,11 @@
-terraform {
-  required_version = ">=0.14"
-}
-
-provider "aws" {
-  region  = var.region
-  profile = var.profile
-}
+data "aws_availability_zones" "available" {}
 
 module "vpc" {
-  source                 = "../modules/network"
+  source                 = "terraform-aws-modules/vpc/aws"
+  version                = "2.70.0"
   cidr                   = var.vpc_cidr
   name                   = "vpc-${var.stack}"
+  azs                    = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1], data.aws_availability_zones.available.names[2]]
   enable_s3_endpoint     = var.vpc_enable_s3_endpoint
   enable_dns_hostnames   = var.vpc_enable_dns_hostnames
   single_nat_gateway     = var.vpc_single_nat_gateway
