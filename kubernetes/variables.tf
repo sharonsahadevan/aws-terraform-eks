@@ -6,7 +6,7 @@ variable "vpc_id" {
 variable "region" {
   type        = string
   description = "cluster deployed region"
-  default     = "us-west-1"
+  default     = "us-west-2"
 }
 
 variable "subnets" {
@@ -45,7 +45,6 @@ variable "cluster_endpoint_public_access_cidrs" {
   description = "List of CIDR blocks which can access the Amazon EKS public API server endpoint."
 }
 
-#variable "account_id" {}
 
 variable "tags" {
   type        = map(string)
@@ -115,31 +114,11 @@ variable "map_users" {
   default = []
 }
 
-variable "alb_security_group_id" {
-  description = "ALB Security Group to allow ingress into the Node Groups"
-}
 
 variable "write_kubeconfig" {
   description = "Whether to write a Kubectl config file containing the cluster configuration. Saved to `config_output_path`."
   default     = false
 }
-
-
-
-
-variable "tenant_services_desired_capacity" {}
-variable "tenant_services_max_capacity" {}
-variable "tenant_services_min_capacity" {}
-
-
-variable "shared_services_desired_capacity" {}
-variable "shared_services_max_capacity" {}
-variable "shared_services_min_capacity" {}
-
-variable "observability_desired_capacity" {}
-variable "observability_max_capacity" {}
-variable "observability_min_capacity" {}
-
 
 
 variable "nodegroup_volume_size" {
@@ -157,52 +136,6 @@ variable "nodegroup_ebs_delete_on_termination" {
   default = true
 }
 
-# tenant group
-variable "tenant_nodegroup_volume_size" {
-  type    = number
-  default = 100
-}
 
-variable "tenant_nodegroup_volume_type" {
-  type    = string
-  default = "gp2"
-}
 
-variable "tenant_nodegroup_ebs_delete_on_termination" {
-  type    = bool
-  default = true
-}
 
-# shared-service group
-
-variable "shared_services_nodegroup_volume_size" {
-  type    = number
-  default = 100
-}
-
-variable "shared_services_nodegroup_volume_type" {
-  type    = string
-  default = "gp2"
-}
-
-variable "shared_services_nodegroup_ebs_delete_on_termination" {
-  type    = bool
-  default = true
-}
-
-# observability group
-
-variable "observability_nodegroup_volume_size" {
-  type    = number
-  default = 100
-}
-
-variable "observability_nodegroup_volume_type" {
-  type    = string
-  default = "gp2"
-}
-
-variable "observability_nodegroup_ebs_delete_on_termination" {
-  type    = bool
-  default = true
-}

@@ -21,21 +21,21 @@ vpc_vpc_description        = "redseal vpc"
 vpc_one_nat_gateway_per_az = true
 
 # eks 
-eks_cluster_version                                = 1.19
-eks_enable_irsa                                    = true
-eks_cluster_endpoint_public_access                 = true
-eks_cluster_endpoint_private_access                = true
-eks_cluster_create_endpoint_private_access_sg_rule = true
-eks_nodegroup_volume_size                          = 100
-eks_tenant_services_instance_types                      = ["m5.2xlarge"]
-eks_cluster_endpoint_public_access_cidrs                = ["0.0.0.0/0"]
-eks_cluster_endpoint_private_access_cidrs               = ["0.0.0.0/0"]
-eks_tenant_services_desired_capacity                    = 3
-eks_tenant_services_max_capacity                        = 5
-eks_tenant_services_min_capacity                        = 2
-eks_tenant_nodegroup_volume_size                        = 100
-eks_shared_services_nodegroup_volume_type               = "gp2"
-eks_observability_nodegroup_ebs_delete_on_termination   = true
+eks_cluster_version                                   = 1.19
+eks_enable_irsa                                       = true
+eks_cluster_endpoint_public_access                    = true
+eks_cluster_endpoint_private_access                   = true
+eks_cluster_create_endpoint_private_access_sg_rule    = true
+eks_nodegroup_volume_size                             = 100
+eks_tenant_services_instance_types                    = ["m5.2xlarge"]
+eks_cluster_endpoint_public_access_cidrs              = ["0.0.0.0/0"]
+eks_cluster_endpoint_private_access_cidrs             = ["0.0.0.0/0"]
+eks_tenant_services_desired_capacity                  = 3
+eks_tenant_services_max_capacity                      = 5
+eks_tenant_services_min_capacity                      = 2
+eks_tenant_nodegroup_volume_size                      = 100
+eks_shared_services_nodegroup_volume_type             = "gp2"
+eks_observability_nodegroup_ebs_delete_on_termination = true
 
 # eks_devops_assumable_roles    // need to review -  need to creat a role
 # create_readonly_role       = true

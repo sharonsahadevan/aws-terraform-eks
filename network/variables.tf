@@ -5,15 +5,6 @@ variable "vpc_name" {
   default     = "vpc-stg"
 }
 
-
-# variable "gateway_id" {}
-
-# variable "vpc_id" {}
-
-# variable "subnet_id" {}
-
-
-
 variable "cidr" {
   description = "CIDR block for VPC"
   type        = string
@@ -51,12 +42,12 @@ variable "private_subnets" {
 #variable "cidr" {}
 #variable "public_subnets" {}
 #variable "private_subnets" {}
-variable "name"{}
+variable "name" {}
 variable "enable_s3_endpoint" {}
 variable "enable_dns_hostnames" {}
 variable "enable_nat_gateway" {}
 variable "single_nat_gateway" {}
-variable "one_nat_gateway_per_az"{}
-variable "tags"{}
-variable "public_subnet_tags"{}
+variable "one_nat_gateway_per_az" {}
+variable "tags" {}
+variable "public_subnet_tags" {}
 variable "private_subnet_tags" {}

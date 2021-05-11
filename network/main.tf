@@ -1,12 +1,18 @@
-data "aws_availability_zones" "available" {}
+locals {
+  name = "vpc-example"
+  tags = {
+    Owner       = "sharon"
+    Environment = "example"
+    Name        = "vpc-example"
+  }
+}
 
 module "vpc" {
   source                 = "terraform-aws-modules/vpc/aws"
-  version                = "2.70.0"
+  version                = "3.0.0"
   cidr                   = var.vpc_cidr
   name                   = "vpc-${var.stack}"
-  azs                    = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1], data.aws_availability_zones.available.names[2]]
-  enable_s3_endpoint     = var.vpc_enable_s3_endpoint
+  azs                    = ["${local.region}a", "${local.region}b", "${local.region}c"]
   enable_dns_hostnames   = var.vpc_enable_dns_hostnames
   single_nat_gateway     = var.vpc_single_nat_gateway
   enable_nat_gateway     = var.vpc_enable_nat_gateway
@@ -15,9 +21,8 @@ module "vpc" {
   public_subnets         = var.vpc_public_subnets
   tags = {
     "kubernetes.io/cluster/eks-${var.stack}" = "shared"
-    "Organization"                           = var.organization
-    "Owner"                                  = var.stack_owner
-    "Stack"                                  = var.stack
+    "Owner"                                  = "${local.Owner}"
+    Environment                              = "${local.Environment}"
   }
 
   public_subnet_tags = {
