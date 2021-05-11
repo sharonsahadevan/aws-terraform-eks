@@ -57,10 +57,10 @@ output "worker_security_group_id" {
   value = module.eks.worker_security_group_id
 }
 
-output "cluster_primary_security_group_id"{
+output "cluster_primary_security_group_id" {
   value = module.eks.cluster_primary_security_group_id
 }
 
-output "kubernetes_oidc_issuer_url"{
+output "kubernetes_oidc_issuer_url" {
   value = module.eks.cluster_oidc_issuer_url
 }
