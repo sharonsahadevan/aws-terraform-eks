@@ -1,5 +1,5 @@
 locals {
-  name = "vpc-example"
+  name   = "vpc-example"
   tags = {
     Owner       = "sharon"
     Environment = "example"
@@ -12,7 +12,7 @@ module "vpc" {
   version                = "3.0.0"
   cidr                   = var.vpc_cidr
   name                   = "vpc-${var.stack}"
-  azs                    = ["${local.region}a", "${local.region}b", "${local.region}c"]
+   azs                   = ["${local.region}a", "${local.region}b", "${local.region}c"]
   enable_dns_hostnames   = var.vpc_enable_dns_hostnames
   single_nat_gateway     = var.vpc_single_nat_gateway
   enable_nat_gateway     = var.vpc_enable_nat_gateway
@@ -20,9 +20,11 @@ module "vpc" {
   private_subnets        = var.vpc_private_subnets
   public_subnets         = var.vpc_public_subnets
   tags = {
-    "kubernetes.io/cluster/eks-${var.stack}" = "shared"
-    "Owner"                                  = "${local.Owner}"
-    Environment                              = "${local.Environment}"
+    "kubernetes.io/cluster/eks-${var.stack}"  = "shared"
+    "Owner"                                   = "${local.Owner}"
+    "Environment"                             = "${local.Environment}"
+    "Name"                                    = "${local.Name}"
+
   }
 
   public_subnet_tags = {
