@@ -1,10 +1,13 @@
 
-variable "vpc_name" {
-  description = "Name of VPC"
-  type        = string
-  default     = "vpc-stg"
+variable "region" {
+  default = "us-east-1"
+  type    = string
 }
 
+variable "stack" {
+  type    = string
+  default = "example"
+}
 variable "cidr" {
   description = "CIDR block for VPC"
   type        = string
@@ -24,30 +27,40 @@ variable "private_subnets" {
 }
 
 
-# variable "tags"{
-#   default = {
-#     Organization  = "redseal"
-#     Application   = "ctp"
-#     Owner         = "terraform"
-#     Stack         = "stg"
-#     Name          = "vpc-stg"
-#   }
-# }
+variable "enable_dns_hostnames" {
+  type = bool 
+  description = "Should be true to enable DNS hostnames in the Default VPC"
+  default = true 
+}
+variable "enable_nat_gateway" {
+  description = "Should be true if you want to provision NAT Gateways for each of your private networks"
+  default = true
+  type = bool
+}
+variable "single_nat_gateway" {
+  description = "Should be true if you want to provision a single shared NAT Gateway across all of your private networks"
+  default = false
+  type = bool 
 
+}
+variable "one_nat_gateway_per_az" {
+  description = "Should be true if you want only one NAT Gateway per availability zone. Requires `var.azs` to be set, and the number of `public_subnets` created to be greater than or equal to the number of availability zones specified in `var.azs`"
+  default = false
+  type = bool 
+}
 
-
-
-#variable "environment" {}
-#variable "app_name" {}
-#variable "cidr" {}
-#variable "public_subnets" {}
-#variable "private_subnets" {}
-variable "name" {}
-variable "enable_s3_endpoint" {}
-variable "enable_dns_hostnames" {}
-variable "enable_nat_gateway" {}
-variable "single_nat_gateway" {}
-variable "one_nat_gateway_per_az" {}
-variable "tags" {}
-variable "public_subnet_tags" {}
-variable "private_subnet_tags" {}
+variable "tags" {
+  description = "A map of tags to add to all resources"
+  type = map(string)
+  default = {}
+}
+variable "public_subnet_tags" {
+  description = "Additional tags for the public subnets"
+  type = map(string)
+  default = {}
+}
+variable "private_subnet_tags" {
+  description = "Additional tags for the private subnets"
+  default = {}
+  type = map(string)
+}

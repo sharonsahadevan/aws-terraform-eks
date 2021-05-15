@@ -1,0 +1,21 @@
+# If any credintials add
+terraform.tfvars
+values.auto.tfvars
+# Compiled files
+*.tfstate
+*.tfstate.backup
+
+# Module directory
+.terraform/
+# swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+# session
+Session.vim
+.idea
+iac.iml
+.DS_Store
+#.dot file ignore for graph output
+*.dot 
+*tfplan
+
