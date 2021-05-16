@@ -1,3 +1,8 @@
+locals {
+  Owner = "sharon"
+  Name  = "eks-example"
+}
+
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }
@@ -6,6 +11,16 @@ data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
 }
 
+data "terraform_remote_state" "vpc" {
+  backend = "remote"
+
+  config = {
+    organization = "sharon-demo"
+    workspaces = {
+      name = "network"
+    }
+  }
+}
 
 
 provider "kubernetes" {
@@ -26,40 +41,44 @@ provider "kubernetes" {
 module "eks" {
   source                                         = "terraform-aws-modules/eks/aws"
   version                                        = "15.1.0"
-  cluster_name                                   = var.cluster_name
+  cluster_name                                   = local.Name
   cluster_version                                = var.cluster_version
-  subnets                                        = var.subnets
+  subnets                                        = data.terraform_remote_state.vpc.outputs.private_subnets
   write_kubeconfig                               = var.write_kubeconfig
-  vpc_id                                         = var.vpc_id
+  vpc_id                                         = data.terraform_remote_state.vpc.outputs.vpc_id
   enable_irsa                                    = var.enable_irsa
   cluster_endpoint_public_access                 = var.cluster_endpoint_public_access
   cluster_endpoint_private_access                = var.cluster_endpoint_private_access
   cluster_create_endpoint_private_access_sg_rule = var.cluster_create_endpoint_private_access_sg_rule
   cluster_endpoint_private_access_cidrs          = var.cluster_endpoint_private_access_cidrs
   cluster_endpoint_public_access_cidrs           = var.cluster_endpoint_public_access_cidrs
-  tags                                           = var.tags
   map_roles                                      = var.map_roles
   map_users                                      = var.map_users
   map_accounts                                   = var.map_accounts
+  tags = {
+    "kubernetes.io/cluster/eks-${local.Name}" = "shared"
+    "Owner"                                   = local.Owner
+    "Name"                                    = local.Name
+  }
 
   node_groups_defaults      = {}
   cluster_enabled_log_types = ["api", "audit"]
   node_groups = {
-    shared_services = {
-      desired_capacity        = var.shared_services_desired_capacity
-      max_capacity            = var.shared_services_max_capacity
-      min_capacity            = var.shared_services_min_capacity
-      instance_types          = var.shared_services_instance_types
-      launch_template_id      = aws_launch_template.shared_services_tmpl.id
-      launch_template_version = aws_launch_template.shared_services_tmpl.default_version
+    example_node_group = {
+      desired_capacity        = var.nodegroup_desired_capacity
+      max_capacity            = var.nodegroup_max_capacity
+      min_capacity            = var.nodegroup_min_capacity
+      instance_types          = var.nodegroup_instance_types
+      launch_template_id      = aws_launch_template.default.id
+      launch_template_version = aws_launch_template.default.default_version
 
       k8s_labels = {
-        "redseal.net/role" = "shared-services"
+        "redseal.net/role" = "example-node-group"
       }
       additional_tags = {
-        "Stack Name"       = var.stack_name
-        "Owner"            = var.stack_owner
-        "redseal.net/role" = "shared-services"
+        "Stack Name"       = local.Name
+        "Owner"            = local.Owner
+        "redseal.net/role" = "example-node-group"
       }
     },
   }
@@ -79,9 +98,8 @@ resource "aws_kms_key" "eks" {
   enable_key_rotation = true
 
   tags = {
-    Name         = var.cluster_name
-    "Stack Name" = var.stack_name
-    "Owner"      = var.stack_owner
+    "Name"  = local.Name
+    "Owner" = local.Owner
   }
 
 }

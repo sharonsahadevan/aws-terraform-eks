@@ -2,6 +2,7 @@
 resource "aws_iam_service_linked_role" "autoscaling" {
   aws_service_name = "autoscaling.amazonaws.com"
   description      = "Default Service-Linked Role enables access to AWS Services and Resources used or managed by Auto Scaling"
+  custom_suffix = "example"
 }
 
 data "aws_caller_identity" "current" {}
@@ -33,7 +34,7 @@ data "aws_iam_policy_document" "ebs_decryption" {
     principals {
       type = "AWS"
       identifiers = [
-        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", # required for the ASG to manage encrypted volumes for nodes
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling-${local.Name}", # required for the ASG to manage encrypted volumes for nodes
         module.eks.cluster_iam_role_arn,                                                                                                            # required for the cluster / persistentvolume-controller to create encrypted PVCs
       ]
     }

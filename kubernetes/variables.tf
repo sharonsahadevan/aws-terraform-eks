@@ -1,31 +1,19 @@
-variable "vpc_id" {
-  type        = string
-  description = "vpc id"
-}
-
 variable "region" {
   type        = string
   description = "cluster deployed region"
-  default     = "us-west-2"
+  default     = "us-east-1"
 }
 
-variable "subnets" {
-  description = "cluster deployed subnets"
-  type        = list(string)
-}
-variable "cluster_name" {
-  description = "cluster name"
-  type        = string
-}
 
 variable "enable_irsa" {
   description = "Whether to create OpenID Connect Provider for EKS to enable IRSA"
   type        = string
+  default     = true
 }
 
 variable "cluster_endpoint_public_access" {
   description = "Indicates whether or not the Amazon EKS public API server endpoint is enabled."
-  default     = false
+  default     = true
 }
 
 variable "cluster_endpoint_private_access" {
@@ -45,12 +33,6 @@ variable "cluster_endpoint_public_access_cidrs" {
   description = "List of CIDR blocks which can access the Amazon EKS public API server endpoint."
 }
 
-
-variable "tags" {
-  type        = map(string)
-  description = "A map of tags to add to all resources. Tags added to launch configuration or templates override these values for ASG Tags only."
-}
-
 variable "cluster_version" {
   type    = number
   default = 1.19
@@ -58,20 +40,24 @@ variable "cluster_version" {
 
 variable "disk_size" {
   type        = number
-  default     = 50
+  default     = 5
   description = "Disk Size in GiB for worker nodes."
 }
 
-variable "shared_services_instance_types" {
-  default = ["m5.xlarge"]
+variable "nodegroup_instance_types" {
+  default = ["t2.micro"]
 }
 
-variable "tenant_services_instance_types" {
-  default = ["m5.2xlarge"]
+variable "nodegroup_desired_capacity" {
+  default = 1
 }
 
-variable "observability_instance_types" {
-  default = ["m5.2xlarge"]
+variable "nodegroup_max_capacity" {
+  default = 1
+}
+
+variable "nodegroup_min_capacity" {
+  default = 1
 }
 
 variable "stack_owner" {
@@ -123,7 +109,7 @@ variable "write_kubeconfig" {
 
 variable "nodegroup_volume_size" {
   type    = number
-  default = 100
+  default = 5
 }
 
 variable "nodegroup_volume_type" {
