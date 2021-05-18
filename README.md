@@ -3,8 +3,8 @@
 EKS cluster with manged nodes can be deployed to a custom VPC, which is deployed in a difference workspace. Prebuilt EKS and VPC modules have been used
 to avoid reinventing the wheels.
 
-**[EKS module](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest)**
-**[VPC module](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest)**
+- **[EKS module](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest)**
+- **[VPC module](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest)**
 
 ## Assumptions
 
